@@ -9,6 +9,12 @@ use App\Handlers\ImageUploadHandler;
 
 class UsersController extends Controller
 {
+    // 过滤用户的操作
+    public function __construct()
+    {
+        $this->middleware('auth', ['edit', 'update']); // 登陆后才可以操作编辑和更新
+    }
+
     // 用户个人资料页
     public function show(User $user)
     {
@@ -19,12 +25,18 @@ class UsersController extends Controller
     // 资料编辑页
     public function edit(User $user)
     {
+        // 授权验证
+        $this->authorize('update', $user);
+
         return view('users.edit', compact('user'));
     }
 
     // 接收资料更新数据 UserRequest 表单请求验证
     public function update(UserRequest $request, ImageUploadHandler $uploader, User $user)
     {
+        // 授权验证
+        $this->authorize('update', $user);
+
         // 获取表单数据
         $data = $request->all();
 
