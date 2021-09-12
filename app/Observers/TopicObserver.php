@@ -18,4 +18,12 @@ class TopicObserver
     {
         //
     }
+
+    // saving 保存前监听  saved保存后监听
+    public function saving(Topic $topic)
+    {
+        // 赋值 excerpt 调用辅助方法 make_excerpt
+        $topic->excerpt = make_excerpt($topic->body);
+
+    }
 }

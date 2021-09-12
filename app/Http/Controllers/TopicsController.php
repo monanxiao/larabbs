@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Topic;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
+use Auth;
 
 class TopicsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth', ['except' => ['index', 'show']]);
+        $this->middleware('auth', ['except' => ['index', 'show']]);// 未登录用户只可以查看首页和详情页
     }
 
 	public function index(Request $request, Topic $topic)
@@ -28,15 +30,23 @@ class TopicsController extends Controller
         return view('topics.show', compact('topic'));
     }
 
+    // 创建话题
 	public function create(Topic $topic)
 	{
-		return view('topics.create_and_edit', compact('topic'));
+        $categories = Category::all();// 取出所有分类
+
+		return view('topics.create_and_edit', compact('topic','categories'));
 	}
 
-	public function store(TopicRequest $request)
+    // 接收话题数据
+	public function store(TopicRequest $request, Topic $topic)
 	{
-		$topic = Topic::create($request->all());
-		return redirect()->route('topics.show', $topic->id)->with('message', 'Created successfully.');
+
+        $topic->fill($request->all()); // 创建一个实例赋值
+        $topic->user_id = Auth::id(); // 赋值当前登录用户
+        $topic->save(); // 保存数据
+
+		return redirect()->route('topics.show', $topic->id)->with('message', '帖子创建成功！');
 	}
 
 	public function edit(Topic $topic)
