@@ -26,8 +26,15 @@ class TopicsController extends Controller
 		return view('topics.index', compact('topics'));
 	}
 
-    public function show(Topic $topic)
+    public function show(Request $request, Topic $topic)
     {
+        // URL 矫正
+        if ( ! empty($topic->slug) && $topic->slug != $request->slug) {
+
+            // 假如 URL 存在slug 但是url地址不正确的时候，自动校正 跳转到带 slug url 上
+            return redirect($topic->link(), 301);
+        }
+
         return view('topics.show', compact('topic'));
     }
 
@@ -47,7 +54,8 @@ class TopicsController extends Controller
         $topic->user_id = Auth::id(); // 赋值当前登录用户
         $topic->save(); // 保存数据
 
-		return redirect()->route('topics.show', $topic->id)->with('success', '帖子创建成功！');
+		// return redirect()->route('topics.show', $topic->id)->with('success', '帖子创建成功！');
+		return redirect()->to($topic->link())->with('success', '帖子创建成功！');
 	}
 
     // 编辑话题
@@ -67,7 +75,8 @@ class TopicsController extends Controller
 		$this->authorize('update', $topic);
 		$topic->update($request->all());
 
-		return redirect()->route('topics.show', $topic->id)->with('success', '更新成功！');
+		// return redirect()->route('topics.show', $topic->id)->with('success', '更新成功！');
+		return redirect()->to($topic->link())->with('success', '更新成功！');
 	}
 
     // 帖子删除功能
