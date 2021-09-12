@@ -9,7 +9,8 @@ class TopicsTableSeeder extends Seeder
 {
     public function run()
     {
-        Topic::factory()->count(10)->create();
+        // 创建话题数据
+        Topic::factory()->count(100)->create();
     }
 }
 

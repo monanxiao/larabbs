@@ -11,8 +11,14 @@ class TopicFactory extends Factory
 
     public function definition()
     {
+        $sentence = $this->faker->sentence();// 话题标题
+
         return [
-            // $this->faker->name,
+            'title' => $sentence,
+            'body' => $this->faker->text(), // 小段文本
+            'excerpt' => $sentence, // 摘录
+            'user_id' => $this->faker->randomElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]), // 用户ID
+            'category_id' => $this->faker->randomElement([1, 2, 3, 4]), //　分类ID
         ];
     }
 }
