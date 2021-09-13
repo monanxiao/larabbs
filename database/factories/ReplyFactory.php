@@ -11,6 +11,7 @@ class ReplyFactory extends Factory
 
     public function definition()
     {
+
         return [
             'content' => $this->faker->sentence(),
             'topic_id' => rand(1, 100),
