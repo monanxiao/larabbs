@@ -61,3 +61,6 @@ Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
 
 // 回复路由
 Route::resource('replies', 'RepliesController', ['only' => ['store', 'destroy']]);
+
+// 通知列表
+Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
