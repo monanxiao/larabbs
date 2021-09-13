@@ -13,8 +13,9 @@ class ReplyPolicy extends Policy
         return true;
     }
 
+    // 删除验证，当前登录用户ID == 回复用户ID
     public function destroy(User $user, Reply $reply)
     {
-        return true;
+        return $user->id == $reply->user_id;
     }
 }
