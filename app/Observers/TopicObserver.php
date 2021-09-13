@@ -46,4 +46,11 @@ class TopicObserver
 
         }
     }
+
+    // 监听话题删除
+    public function deleted(Topic $topic)
+    {
+        // 当话题删除时，连带删除所有回复
+        \DB::table('replies')->where('topic_id', $topic->id)->delete();
+    }
 }

@@ -65,4 +65,12 @@ class Topic extends Model
     {
         return $this->hasMany(Reply::class);
     }
+
+    // 统计当前回复数量
+    public function updateReplyCount()
+    {
+        $this->reply_count = $this->replies->count(); // 统计当前回复数量
+        $this->save(); // 保存更新数据
+    }
+
 }

@@ -13,9 +13,10 @@ class ReplyPolicy extends Policy
         return true;
     }
 
-    // 删除验证，当前登录用户ID == 回复用户ID
+    // 删除验证
     public function destroy(User $user, Reply $reply)
     {
-        return $user->id == $reply->user_id;
+        // 当前回复的用户ID == 当前用户 或 当前话题发布者，拥有删除回复权限
+        return $user->isAuthorOf($reply) || $user->isAuthorOf($reply->topic);
     }
 }
