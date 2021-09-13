@@ -17,5 +17,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(UsersTableSeeder::class);// 用户填充
         $this->call(TopicsTableSeeder::class);// 话题填充
+		$this->call(RepliesTableSeeder::class);// 回复填充
+
     }
 }

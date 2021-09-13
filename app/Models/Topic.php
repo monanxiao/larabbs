@@ -59,4 +59,10 @@ class Topic extends Model
     {
         return route('topics.show', array_merge([$this->id, $this->slug], $params));
     }
+
+    // 一条话题有多个回复，一对多
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
 }

@@ -23,7 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
 	{
-		\App\Models\User::observe(\App\Observers\UserObserver::class);// 用户监听器
+		\App\Models\User::observe(\App\Observers\UserObserver::class);
+		\App\Models\Reply::observe(\App\Observers\ReplyObserver::class);// 用户监听器
 		\App\Models\Topic::observe(\App\Observers\TopicObserver::class);// 话题监听器
 
         // 使用 boostatrap 样式

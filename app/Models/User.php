@@ -57,4 +57,10 @@ class User extends Authenticatable implements MustVerifyEmailContract
         // 当前登录用户ID == 当前数据所有者ID 验证是否匹配
         return $this->id == $model->user_id;
     }
+
+    // 一条个用户有多个评论，一对多
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
 }
