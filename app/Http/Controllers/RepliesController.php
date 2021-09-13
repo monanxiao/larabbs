@@ -18,6 +18,18 @@ class RepliesController extends Controller
     // 接收回复内容数据
 	public function store(ReplyRequest $request, Reply $reply)
 	{
+
+        // XSS 攻击处理
+        $content = clean($request->content, 'user_topic_body');
+
+        // 检测内容 XSS 攻击代码 和 空数据
+        if ( empty($content) ) {
+
+            // 跳转到当前话题页面
+            return redirect()->back()->with('danger', '回复失败~');
+        }
+
+
         $reply->content = $request->content;// 回复内容
         $reply->user_id = Auth::id();// 回复用户
         $reply->topic_id = $request->topic_id;// 回复话题
