@@ -28,8 +28,14 @@ class ReplyObserver
         // 计算当前的回复总数，严谨用法
         $reply->topic->updateReplyCount();
 
-        // 通知话题作者有新的评论
-        $reply->topic->user->notify(new TopicReplied($reply));
+        // 命令行运行迁移时不做这些操作！
+        if ( ! app()->runningInConsole()) {
+
+            $reply->topic->updateReplyCount();
+           // 通知话题作者有新的评论
+            $reply->topic->user->notify(new TopicReplied($reply));
+        }
+
     }
 
     // 删除回复后，回复数 -1
