@@ -10,6 +10,7 @@ use App\Http\Requests\TopicRequest;
 use Auth;
 use App\Handlers\ImageUploadHandler;
 use App\Models\User;
+use App\Models\Link;
 
 class TopicsController extends Controller
 {
@@ -18,7 +19,7 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]);// 未登录用户只可以查看首页和详情页
     }
 
-	public function index(Request $request, Topic $topic, User $user)
+	public function index(Request $request, Topic $topic, User $user, Link $link)
 	{
         $topics = $topic->withOrder($request->order) // 调用模型中排序方法
                         ->with('user', 'category') // 预加载防止 N+1 问题
@@ -27,7 +28,10 @@ class TopicsController extends Controller
         // 取出活跃用户
         $active_users = $user->getActiveUsers();
 
-		return view('topics.index', compact('topics', 'active_users'));
+        // 取出推荐资源
+        $links = $link->getAllCached();
+
+		return view('topics.index', compact('topics', 'active_users', 'links'));
 	}
 
     public function show(Request $request, Topic $topic)

@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
 		\App\Models\User::observe(\App\Observers\UserObserver::class);
 		\App\Models\Reply::observe(\App\Observers\ReplyObserver::class);// 用户监听器
 		\App\Models\Topic::observe(\App\Observers\TopicObserver::class);// 话题监听器
+        \App\Models\Link::observe(\App\Observers\LinkObserver::class);// 推荐资源更新监听
 
         // 使用 boostatrap 样式
         \Illuminate\Pagination\Paginator::useBootstrap();
