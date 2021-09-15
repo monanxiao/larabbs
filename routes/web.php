@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // 首页
-Route::get('/', 'PagesController@root')->name('root');
+Route::get('/', 'TopicsController@index')->name('root');
 
 // 用户 注册、登录、重置密码、 邮箱认证 等相关操作
 // Auth::routes();
