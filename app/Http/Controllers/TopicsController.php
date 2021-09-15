@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
 use Auth;
 use App\Handlers\ImageUploadHandler;
+use App\Models\User;
 
 class TopicsController extends Controller
 {
@@ -17,13 +18,16 @@ class TopicsController extends Controller
         $this->middleware('auth', ['except' => ['index', 'show']]);// 未登录用户只可以查看首页和详情页
     }
 
-	public function index(Request $request, Topic $topic)
+	public function index(Request $request, Topic $topic, User $user)
 	{
         $topics = $topic->withOrder($request->order) // 调用模型中排序方法
                         ->with('user', 'category') // 预加载防止 N+1 问题
                         ->paginate(30);// 分页 30条
 
-		return view('topics.index', compact('topics'));
+        // 取出活跃用户
+        $active_users = $user->getActiveUsers();
+
+		return view('topics.index', compact('topics', 'active_users'));
 	}
 
     public function show(Request $request, Topic $topic)

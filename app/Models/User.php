@@ -14,6 +14,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmailContract
 {
     // use HasApiTokens, HasFactory, Notifiable, MustVerifyEmailTrait;
+    use Traits\ActiveUserHelper;
     use HasRoles;
     use HasApiTokens, HasFactory, MustVerifyEmailTrait;
 
